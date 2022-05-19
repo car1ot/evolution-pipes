@@ -1,17 +1,21 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { defaultTheme } from '../../styled-theme';
-import { GlobalStyle } from './App.styled';
+
+import GamePage from '../../pages/Game/Game.page';
+
+import { defaultTheme } from '../../styled/styled';
+import { GlobalStyle, GlobalWrapper } from './App.styled';
 
 import '../../assets/styles/reset.css';
 import '../../assets/styles/font.css';
-import GamePage from '../../pages/Game/Game.page';
 
 const AppContainer = () => {
     return (
         <ThemeProvider theme={defaultTheme}>
             <GlobalStyle />
-            <GamePage />
+            <GlobalWrapper>
+                <GamePage />
+            </GlobalWrapper>
         </ThemeProvider>
     );
 };
