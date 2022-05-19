@@ -19,6 +19,10 @@ export const PipeWrapper = styled.div`
         padding: 15px;
         border-radius: 15px;
         margin-top: 20px;
+
+        &:disabled {
+            pointer-events: none;
+        }
     }
 `;
 
