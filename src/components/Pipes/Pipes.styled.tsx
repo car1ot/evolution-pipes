@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const PipeWrapper = styled.div`
+export const PipeWrapper = styled.div<{ pending: number }>`
     display: flex;
     flex-direction: column;
     background: ${(p) => p.theme.palette.purple3};
@@ -8,6 +8,20 @@ export const PipeWrapper = styled.div`
     border-radius: 30px;
     width: fit-content;
     margin: 30px auto;
+
+    ${(p) => {
+        if (!!p.pending) {
+            return `
+                & {
+                    cursor: wait;
+                }
+
+                & * {
+                    pointer-events: none;
+                }
+            `;
+        }
+    }}
 
     button {
         cursor: pointer;

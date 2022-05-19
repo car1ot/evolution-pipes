@@ -45,11 +45,11 @@ export class PipesGateway {
     }
 
     /**
-     * Select level
+     * Send level number select
      * @param l level number
      * @returns New level map
      */
-    public static async selectLevel(l: number | string) {
+    public static async sendLevel(l: number | string) {
         if (!this.isWsOpen) {
             return null;
         }
@@ -59,24 +59,44 @@ export class PipesGateway {
             return null;
         }
 
-        const map = (await this.sendCommand(`map`))
+        // const map = (await this.sendCommand('map'))
+        //     .split('\n')
+        //     .slice(1, -1)
+        //     .map((row, rowIdx) => {
+        //         const pipes = row.split('');
+        //         for (let pipeIdx = 0; pipeIdx < pipes.length; pipeIdx++) {
+        //             pipes[pipeIdx] = `${pipeIdx + rowIdx * 2 + 1 + 1 * rowIdx}${pipes[pipeIdx]}`;
+        //         }
+        //         return pipes;
+        //     });
+
+        const map = (await this.sendCommand('map'))
             .split('\n')
             .slice(1, -1)
-            .map((row) => {
-                return row.split('');
-            });
+            .map((row) => row.split(''));
 
         return map;
     }
 
     /**
-     * Verify level
+     * Send level verify
      */
-    public static async verify() {
+    public static async sendVerify() {
         if (!this.isWsOpen) {
             return null;
         }
 
-        return await this.sendCommand(`verify`);
+        return await this.sendCommand('verify');
+    }
+
+    /**
+     * Send pipe rotate
+     */
+    public static async sendRotate(pipeRowIdx: number, pipeIdx: number) {
+        if (!this.isWsOpen) {
+            return null;
+        }
+
+        return await this.sendCommand(`rotate ${pipeIdx} ${pipeRowIdx}`);
     }
 }
