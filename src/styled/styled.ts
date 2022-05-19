@@ -4,9 +4,9 @@ export const defaultTheme = {
     palette: {
         white: '#FFFFFF',
 
-        purple1: '#B677E8',
+        purple1: '#BE6CFF',
         purple2: '#9B2BF3',
-        purple3: '#8539C1',
+        purple3: '#7526B0',
     },
 };
 
