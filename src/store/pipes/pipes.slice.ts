@@ -7,6 +7,7 @@ export interface PipesState {
     connected: boolean;
     level: number;
     map: IGameMap;
+    mapChunk: [number, number];
 }
 
 export const pipesLevels = [1, 2, 3, 4, 5, 6];
@@ -15,6 +16,7 @@ const initialState: PipesState = {
     connected: false,
     level: Number(store2.get('pipes::level')) || 1,
     map: null,
+    mapChunk: [0, 0],
 };
 
 export const pipesSlice = createSlice({
@@ -37,9 +39,12 @@ export const pipesSlice = createSlice({
             state.level = action.payload;
             store2.set('pipes::level', state.level);
         },
+        setPipesMapChunk: (state, action: PayloadAction<[number, number]>) => {
+            state.mapChunk = action.payload;
+        },
     },
 });
 
-export const { setPipesConnected, setPipesMap, setPipesRotate, setPipesLevel } = pipesSlice.actions;
+export const { setPipesConnected, setPipesMap, setPipesRotate, setPipesLevel, setPipesMapChunk } = pipesSlice.actions;
 
 export default pipesSlice.reducer;

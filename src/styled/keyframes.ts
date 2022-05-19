@@ -6,7 +6,7 @@ export const blinking = keyframes`
     }
 
     50% {
-        opacity: 0.33;
+        opacity: 0.6;
     }
 
     100% {

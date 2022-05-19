@@ -92,11 +92,11 @@ export class PipesGateway {
     /**
      * Send pipe rotate
      */
-    public static async sendRotate(pipeRowIdx: number, pipeIdx: number) {
+    public static async sendRotate(rowIdx: number, colIdx: number) {
         if (!this.isWsOpen) {
             return null;
         }
 
-        return await this.sendCommand(`rotate ${pipeIdx} ${pipeRowIdx}`);
+        return await this.sendCommand(`rotate ${colIdx} ${rowIdx}`);
     }
 }

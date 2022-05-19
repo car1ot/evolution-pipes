@@ -1,9 +1,25 @@
+import classNames from 'classnames';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPipesConnected, setPipesLevel, setPipesMap, setPipesRotate } from '../../store/pipes/pipes.slice';
+import {
+    setPipesConnected,
+    setPipesLevel,
+    setPipesMap,
+    setPipesMapChunk,
+    setPipesRotate,
+} from '../../store/pipes/pipes.slice';
 import { RootState } from '../../store/store';
+import UpperTextStyled from '../../styled/UpperText.styled';
 import { PipesGateway } from './Pipes.gateway';
-import { Pipe, PipePreloader, PipeRow, PipeWrapper } from './Pipes.styled';
+import {
+    Pipe,
+    PipeChunkMap,
+    PipeChunkMapCol,
+    PipeChunkMapRow,
+    PipeRow,
+    PipesMainWrapper,
+    PipeWrapper,
+} from './Pipes.styled';
 import { EVerifyResult } from './Pipes.type';
 
 const PipesComponent = () => {
@@ -60,17 +76,30 @@ const PipesComponent = () => {
         }
     }, [nextLevel, verifyResult, init]);
 
+    /**
+     * Rotate pipe
+     */
     const editRotate = React.useCallback(
-        async (pipeRowIdx: number, pipeIdx: number) => {
+        async (rowIdx: number, colIdx: number, rowChunkOffset: number, colChunkOffset: number) => {
             setRotatePending(1);
             try {
-                const rotate = await PipesGateway.sendRotate(pipeRowIdx, pipeIdx);
+                const rotate = await PipesGateway.sendRotate(rowIdx + rowChunkOffset, colIdx + colChunkOffset);
                 if (rotate === 'OK') {
-                    dispatch(setPipesRotate([pipeRowIdx, pipeIdx]));
+                    dispatch(setPipesRotate([rowIdx + rowChunkOffset, colIdx + colChunkOffset]));
                 }
             } finally {
                 setRotatePending(0);
             }
+        },
+        [dispatch],
+    );
+
+    /**
+     * Select chunk if game field is too big
+     */
+    const selectMapChunk = React.useCallback(
+        (rowIdx: number, colIdx: number) => {
+            dispatch(setPipesMapChunk([rowIdx, colIdx]));
         },
         [dispatch],
     );
@@ -85,39 +114,73 @@ const PipesComponent = () => {
 
     if (!pipes.map) {
         return (
-            <PipeWrapper pending={1}>
-                <PipePreloader>🗺️ Loading map...</PipePreloader>
-            </PipeWrapper>
+            <PipesMainWrapper>
+                <PipeWrapper pending={1}>
+                    <UpperTextStyled extraPadding={20}>🗺️ Loading map...</UpperTextStyled>
+                </PipeWrapper>
+            </PipesMainWrapper>
         );
     }
 
-    return (
-        <PipeWrapper pending={rotatePending}>
-            {pipes.map.map((pipeRow, pipeRowIdx) => (
-                <PipeRow key={pipeRowIdx}>
-                    {pipeRow.map((pipe, pipeIdx) => (
-                        <Pipe
-                            key={(pipeRowIdx + 1) * pipeIdx}
-                            onClick={() => {
-                                editRotate(pipeRowIdx, pipeIdx);
-                            }}
-                        >
-                            {pipe}
-                        </Pipe>
-                    ))}
-                </PipeRow>
-            ))}
+    const chunkOffset = {
+        rows: [8 * pipes.mapChunk[0], 8 + 8 * pipes.mapChunk[0]],
+        cols: [8 * pipes.mapChunk[1], 8 + 8 * pipes.mapChunk[1]],
+        rowsMax: Math.ceil(pipes.map.length / 8),
+        colsMax: Math.ceil(pipes.map[0].length / 8),
+    };
 
-            <button className="ripple-btn" onClick={verifyLevel} disabled={verifyResult === EVerifyResult.PENDING}>
-                {verifyResult === EVerifyResult.NO_RESULT
-                    ? 'Next level'
-                    : verifyResult === EVerifyResult.PENDING
-                    ? '💫 Loading'
-                    : verifyResult === EVerifyResult.LIMIT
-                    ? '10 attempts limit reached'
-                    : '👿 Incorrect. Try again'}
-            </button>
-        </PipeWrapper>
+    return (
+        <PipesMainWrapper>
+            {chunkOffset.rowsMax > 1 && chunkOffset.colsMax > 1 && (
+                <PipeChunkMap>
+                    <UpperTextStyled extraPadding={20}>👹 Pipes map</UpperTextStyled>
+
+                    {Array.from({ length: chunkOffset.rowsMax }, (_, rowIdx) => (
+                        <PipeChunkMapRow key={rowIdx}>
+                            {Array.from({ length: chunkOffset.rowsMax }, (_, colIdx) => (
+                                <PipeChunkMapCol
+                                    key={colIdx}
+                                    className={classNames({
+                                        current: rowIdx === pipes.mapChunk[0] && colIdx === pipes.mapChunk[1],
+                                    })}
+                                    onClick={() => {
+                                        selectMapChunk(rowIdx, colIdx);
+                                    }}
+                                />
+                            ))}
+                        </PipeChunkMapRow>
+                    ))}
+                </PipeChunkMap>
+            )}
+            <PipeWrapper pending={rotatePending}>
+                <UpperTextStyled extraPadding={20}>🧠 Solve pipes puzzle</UpperTextStyled>
+
+                {pipes.map.slice(chunkOffset.rows[0], chunkOffset.rows[1]).map((row, rowIdx) => (
+                    <PipeRow key={rowIdx}>
+                        {row.slice(chunkOffset.cols[0], chunkOffset.cols[1]).map((col, colIdx) => (
+                            <Pipe
+                                key={(rowIdx + 1) * colIdx}
+                                onClick={() => {
+                                    editRotate(rowIdx, colIdx, chunkOffset.rows[0], chunkOffset.cols[0]);
+                                }}
+                            >
+                                {col}
+                            </Pipe>
+                        ))}
+                    </PipeRow>
+                ))}
+
+                <button className="ripple-btn" onClick={verifyLevel} disabled={verifyResult === EVerifyResult.PENDING}>
+                    {verifyResult === EVerifyResult.NO_RESULT
+                        ? 'Next level'
+                        : verifyResult === EVerifyResult.PENDING
+                        ? '💫 Loading'
+                        : verifyResult === EVerifyResult.LIMIT
+                        ? '10 attempts limit reached'
+                        : '👿 Incorrect. Try again'}
+                </button>
+            </PipeWrapper>
+        </PipesMainWrapper>
     );
 };
 
