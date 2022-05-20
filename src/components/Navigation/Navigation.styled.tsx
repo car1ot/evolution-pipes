@@ -10,6 +10,11 @@ export const NavigationWrapper = styled.div`
     border-radius: 30px;
     margin: auto;
 
+    @media screen and (max-width: 860px) {
+        width: calc(100% - 80px);
+        align-items: center;
+    }
+
     span {
         text-transform: uppercase;
         font-size: 18px;

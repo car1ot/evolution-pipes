@@ -7,6 +7,10 @@ export const PipesMainWrapper = styled.div`
     justify-content: space-between;
     flex-direction: row-reverse;
     margin: auto;
+
+    @media screen and (max-width: 860px) {
+        flex-direction: column;
+    }
 `;
 
 export const PipeChunkMap = styled.div<{ sizeLimit?: boolean }>`
@@ -18,6 +22,13 @@ export const PipeChunkMap = styled.div<{ sizeLimit?: boolean }>`
     width: fit-content;
     margin: 30px 0 0 30px;
     border-radius: 30px;
+
+    @media screen and (max-width: 860px) {
+        align-items: center;
+        margin-left: auto;
+        margin-right: auto;
+        width: calc(100% - 40px);
+    }
 
     ${(p) => {
         if (p.sizeLimit) {
