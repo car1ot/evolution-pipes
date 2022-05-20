@@ -38,7 +38,6 @@ const PipesComponent = () => {
 
     /**
      * Select level and load the map
-     * @param force true will cleanup localStorage
      */
     const nextLevel = React.useCallback(async () => {
         const newLevel = pipes.level + 1;
