@@ -4,6 +4,7 @@ import { IGameMap } from '../../components/Pipes/Pipes.type';
 import { rotatePipe } from '../../components/Pipes/Pipes.util';
 
 export interface PipesState {
+    disconnected: boolean;
     connected: boolean;
     level: number;
     map: IGameMap;
@@ -13,6 +14,7 @@ export interface PipesState {
 export const pipesLevels = [1, 2, 3, 4, 5, 6];
 
 const initialState: PipesState = {
+    disconnected: false,
     connected: false,
     level: Number(store2.get('pipes::level')) || 1,
     map: null,
@@ -23,6 +25,9 @@ export const pipesSlice = createSlice({
     name: 'pipes',
     initialState,
     reducers: {
+        setPipesDisconnected: (state, action: PayloadAction<boolean>) => {
+            state.disconnected = action.payload;
+        },
         setPipesConnected: (state, action: PayloadAction<boolean>) => {
             state.connected = action.payload;
         },
@@ -45,6 +50,7 @@ export const pipesSlice = createSlice({
     },
 });
 
-export const { setPipesConnected, setPipesMap, setPipesRotate, setPipesLevel, setPipesMapChunk } = pipesSlice.actions;
+export const { setPipesDisconnected, setPipesConnected, setPipesMap, setPipesRotate, setPipesLevel, setPipesMapChunk } =
+    pipesSlice.actions;
 
 export default pipesSlice.reducer;

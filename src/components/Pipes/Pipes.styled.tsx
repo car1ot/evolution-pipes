@@ -9,7 +9,7 @@ export const PipesMainWrapper = styled.div`
     margin: auto;
 `;
 
-export const PipeChunkMap = styled.div`
+export const PipeChunkMap = styled.div<{ sizeLimit?: boolean }>`
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -18,6 +18,16 @@ export const PipeChunkMap = styled.div`
     width: fit-content;
     margin: 30px 0 0 30px;
     border-radius: 30px;
+
+    ${(p) => {
+        if (p.sizeLimit) {
+            return `
+                overflow: scroll;
+                max-width: 520px;
+                max-height: 610px;
+            `;
+        }
+    }}
 `;
 
 export const PipeChunkMapRow = styled.div`
@@ -32,8 +42,8 @@ export const PipeChunkMapRow = styled.div`
 export const PipeChunkMapCol = styled.div`
     display: flex;
     background: ${(p) => p.theme.palette.purple2};
-    width: 60px;
-    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
     margin-right: 10px;
     border-radius: 15px;
     transition: 0.2s;

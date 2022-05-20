@@ -1,4 +1,6 @@
 import { GATEWAY_URL } from '../../constants/env.constants';
+import { setPipesConnected, setPipesDisconnected } from '../../store/pipes/pipes.slice';
+import { store } from '../../store/store';
 
 export class PipesGateway {
     private static ws: WebSocket;
@@ -15,8 +17,18 @@ export class PipesGateway {
         const onOpen = new Promise<void>((resolve, reject) => {
             this.ws = new WebSocket(GATEWAY_URL);
             this.ws.onopen = () => resolve();
-            this.ws.onclose = (e) => reject(e);
-            this.ws.onerror = (e) => reject(e);
+            this.ws.onclose = (e) => {
+                console.log('close', e);
+                if (e.code !== 1000) {
+                    store.dispatch(setPipesDisconnected(true));
+                }
+                reject(e);
+            };
+            this.ws.onerror = (e) => {
+                console.log('error', e);
+                store.dispatch(setPipesDisconnected(true));
+                reject(e);
+            };
         });
 
         return Promise.all([onOpen]);
@@ -31,16 +43,30 @@ export class PipesGateway {
         }
 
         this.ws = null;
+
+        store.dispatch(setPipesConnected(false));
     }
 
     private static sendCommand(command: string) {
         return new Promise<string>((resolve) => {
+            let resolved = false;
+
             this.ws.onmessage = (e) => {
                 const dividerIdx = e.data.indexOf(':');
                 const data: string = e.data.slice(dividerIdx + 1).replaceAll(' ', '');
-                resolve(data);
+                if (!resolved) {
+                    resolved = true;
+                    resolve(data);
+                }
             };
             this.ws.send(command);
+
+            setTimeout(() => {
+                if (!resolved) {
+                    resolved = true;
+                    resolve(null);
+                }
+            }, 10e3);
         });
     }
 

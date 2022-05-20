@@ -29,6 +29,9 @@ const PipesComponent = () => {
     const [verifyResult, setVerifyResult] = React.useState<EVerifyResult>(EVerifyResult.NO_RESULT);
     const [rotatePending, setRotatePending] = React.useState<number>(0);
 
+    /**
+     * Connect to the server and init pipes state
+     */
     const init = React.useCallback(async () => {
         await PipesGateway.init();
         const map = await PipesGateway.sendLevel(pipes.level);
@@ -60,7 +63,9 @@ const PipesComponent = () => {
 
         try {
             const verify = await PipesGateway.sendVerify();
-            if (verify !== EVerifyResult.INCORRECT && verify !== EVerifyResult.LIMIT) {
+            if (verify === null) {
+                throw new Error('Verify is null');
+            } else if (verify !== EVerifyResult.INCORRECT && verify !== EVerifyResult.LIMIT) {
                 nextLevel();
                 setVerifyResult(EVerifyResult.NO_RESULT);
 
@@ -107,9 +112,11 @@ const PipesComponent = () => {
      * Connect to gateway
      */
     React.useEffect(() => {
-        init();
+        if (!pipes.disconnected) {
+            init();
+        }
         // eslint-disable-next-line
-    }, []);
+    }, [pipes.disconnected]);
 
     if (!pipes.map) {
         return (
@@ -131,7 +138,7 @@ const PipesComponent = () => {
     return (
         <PipesMainWrapper>
             {(chunkOffset.rowsMax > 1 || chunkOffset.colsMax > 1) && (
-                <PipeChunkMap>
+                <PipeChunkMap sizeLimit={chunkOffset.rowsMax > 7 || chunkOffset.colsMax > 7}>
                     <UpperTextStyled extraPadding={20}>👹 Pipes map</UpperTextStyled>
 
                     {Array.from({ length: chunkOffset.rowsMax }, (_, rowIdx) => (

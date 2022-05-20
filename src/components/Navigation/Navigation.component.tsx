@@ -9,7 +9,7 @@ const NavigationComponent = () => {
 
     return (
         <NavigationWrapper>
-            <span>🕹️ Level 1</span>
+            <span>🕹️ Level {pipesLevel}</span>
             <NavigationButtons>
                 {pipesLevels.map((level) => (
                     <button className={classNames({ current: pipesLevel === level })} key={level} disabled>
