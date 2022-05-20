@@ -30,9 +30,10 @@ export const NavigationButtons = styled.div`
 
     button {
         position: relative;
+        text-align: center;
         cursor: pointer;
-        width: 50px;
-        height: 50px;
+        min-width: 50px;
+        min-height: 50px;
         border: none;
         outline: none;
         border-radius: 15px;
