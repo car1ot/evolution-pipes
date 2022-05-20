@@ -164,9 +164,7 @@ const PipesComponent = () => {
                                     editRotate(rowIdx, colIdx, chunkOffset.rows[0], chunkOffset.cols[0]);
                                 }}
                                 data-symbol={col}
-                            >
-                                {col}
-                            </Pipe>
+                            />
                         ))}
                     </PipeRow>
                 ))}

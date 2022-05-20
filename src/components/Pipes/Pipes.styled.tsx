@@ -85,6 +85,10 @@ export const PipeWrapper = styled.div<{ pending: number }>`
             pointer-events: none;
         }
     }
+
+    * {
+        user-select: none;
+    }
 `;
 
 export const PipeRow = styled.div`
@@ -94,13 +98,8 @@ export const PipeRow = styled.div`
 export const Pipe = styled.div`
     position: relative;
     cursor: pointer;
-    text-align: center;
-    color: ${(p) => p.theme.palette.white};
-    font-size: 50px;
-    line-height: 60px;
     width: 60px;
     height: 60px;
-    user-select: none;
 
     &:hover {
         background: ${(p) => p.theme.palette.purple1};
@@ -165,5 +164,11 @@ export const Pipe = styled.div`
     }
     &[data-symbol='┻']:after {
         background-position: 120px -120px;
+    }
+
+    /* */
+
+    &[data-symbol='╋']:after {
+        background-position: 0px 120px;
     }
 `;
