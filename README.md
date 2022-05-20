@@ -22,6 +22,7 @@ Sometimes websocket server response time is too long;
 ## Key design decisions made, especially if you considered multiple options:
 
 In this project I liked to use React list rendering to display pipes;
+I split big pipe maps into a small chunks and made mini-map to move between chunks;
 I used Redux state management to improve project structure and store game data in one place;
 I used localStorage (store2) to save game progress, so player will not loose level progress;
 
