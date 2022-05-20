@@ -131,7 +131,7 @@ const PipesComponent = () => {
 
     return (
         <PipesMainWrapper>
-            {chunkOffset.rowsMax > 1 && chunkOffset.colsMax > 1 && (
+            {(chunkOffset.rowsMax > 1 || chunkOffset.colsMax > 1) && (
                 <PipeChunkMap>
                     <UpperTextStyled extraPadding={20}>👹 Pipes map</UpperTextStyled>
 
@@ -163,6 +163,7 @@ const PipesComponent = () => {
                                 onClick={() => {
                                     editRotate(rowIdx, colIdx, chunkOffset.rows[0], chunkOffset.cols[0]);
                                 }}
+                                data-symbol={col}
                             >
                                 {col}
                             </Pipe>

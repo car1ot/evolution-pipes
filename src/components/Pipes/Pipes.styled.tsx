@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import pipesTiles from '../../assets/images/pipes-tiles.png';
 
 export const PipesMainWrapper = styled.div`
     display: flex;
@@ -91,6 +92,7 @@ export const PipeRow = styled.div`
 `;
 
 export const Pipe = styled.div`
+    position: relative;
     cursor: pointer;
     text-align: center;
     color: ${(p) => p.theme.palette.white};
@@ -102,5 +104,66 @@ export const Pipe = styled.div`
 
     &:hover {
         background: ${(p) => p.theme.palette.purple1};
+    }
+
+    &:after {
+        position: absolute;
+        content: '';
+        width: 60px;
+        height: 60px;
+        left: 0;
+        background: url(${pipesTiles});
+    }
+
+    &[data-symbol='╸']:after {
+        background-position: 120px 0px;
+    }
+    &[data-symbol='╹']:after {
+        background-position: -60px -60px;
+    }
+    &[data-symbol='╺']:after {
+        background-position: 60px 0px;
+    }
+    &[data-symbol='╻']:after {
+        background-position: 60px -60px;
+    }
+
+    /* */
+
+    &[data-symbol='━']:after {
+        background-position: 0px 0px;
+    }
+    &[data-symbol='┃']:after {
+        background-position: 0px -60px;
+    }
+
+    /* */
+
+    &[data-symbol='┓']:after {
+        background-position: 120px 60px;
+    }
+    &[data-symbol='┛']:after {
+        background-position: 120px 120px;
+    }
+    &[data-symbol='┗']:after {
+        background-position: 60px 120px;
+    }
+    &[data-symbol='┏']:after {
+        background-position: 0px 60px;
+    }
+
+    /* */
+
+    &[data-symbol='┣']:after {
+        background-position: 0px -120px;
+    }
+    &[data-symbol='┳']:after {
+        background-position: 60px 60px;
+    }
+    &[data-symbol='┫']:after {
+        background-position: 60px -120px;
+    }
+    &[data-symbol='┻']:after {
+        background-position: 120px -120px;
     }
 `;
