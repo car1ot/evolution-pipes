@@ -129,15 +129,21 @@ export class GatewayHelper {
             return null;
         }
 
+        let command = 'rotate';
         const packetOffset = 200e3;
 
         for (let i = 0; i < Math.ceil(rotations.length / packetOffset); i++) {
-            const packet = rotations
-                .slice(i * packetOffset, (i + 1) * packetOffset)
-                .map(([row, col]) => `${row} ${col}`)
-                .join('\n');
-            await this.sendCommand(`rotate ${packet}`);
+            const offsetRotations = rotations.slice(i * packetOffset, (i + 1) * packetOffset);
+
+            for (let j = 0; j < offsetRotations.length; j++) {
+                const [row, col] = offsetRotations[j];
+                command += command.length > 8 ? `\n${row} ${col}` : ` ${row} ${col}`;
+            }
+
+            await this.sendCommand(command);
         }
+
+        const map = await this.sendCommand('map');
 
         return true;
     }
