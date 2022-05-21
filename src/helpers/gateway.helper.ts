@@ -137,11 +137,14 @@ export class GatewayHelper {
 
             for (let j = 0; j < offsetRotations.length; j++) {
                 const [row, col] = offsetRotations[j];
-                command += command.length > 8 ? `\n${row} ${col}` : ` ${row} ${col}`;
+                command += command.length > 8 ? `\n${col} ${row}` : ` ${col} ${row}`;
             }
 
             await this.sendCommand(command);
         }
+
+        const map = await this.sendCommand('map');
+        console.log(map);
 
         return true;
     }

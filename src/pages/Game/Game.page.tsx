@@ -3,6 +3,7 @@ import DisconnectedModalComponent from '../../components/DisconnctedModal/Discon
 
 import NavigationComponent from '../../components/Navigation/Navigation.component';
 import PipesComponent from '../../components/Pipes/Pipes.component';
+import { VersionComponent } from '../../components/Version/Version.component';
 
 import { GameWrapper } from './Game.styled';
 
@@ -12,6 +13,7 @@ const GamePage = () => {
             <DisconnectedModalComponent />
             <NavigationComponent />
             <PipesComponent />
+            <VersionComponent />
         </GameWrapper>
     );
 };
