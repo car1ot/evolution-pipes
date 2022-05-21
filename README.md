@@ -41,7 +41,7 @@ Sometimes websocket server response time is too long. I've coded a queue to work
 
 On >2 levels it takes a lot of time to solve the puzzle. If game client is going to sync every rotation with server, it will take a lot of time for user to solve the puzzle. My game client store every rotation in Redux. After user clicks verify, the game client is going to send all rotations;
 
-Discussing about solution with rotation sync, got one more problem. On the 5, 6 levels it requires a lot of rotations to be made by user. I split `rotate` message to chunks (every chunk size is `< 1 MB`);
+Discussing about solution with rotation sync, got one more problem. On the 5, 6 levels it requires a lot of rotations to be made by user. I split `rotate` message to chunks (every chunk size is `< 1 MB`). Pipes server does not accept `rotation` in size of `> 1 MB`;
 
 # How to launch the solution:
 
