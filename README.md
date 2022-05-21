@@ -35,13 +35,13 @@
 
 ## Key design decisions made, especially if you considered multiple options:
 
-High levels got a lot of pipes. This is hard to render this huge amount of pipes. I made chunks system to split big game fields to small zones with mini-map navigation (level 6 it could be hard to navigate);
+It is hard to render huge amount of pipes on high levels. I've coded a chunks system to split huge pipes field into a small chunks. To navigate between chunks there is a mini-map (level 6 could be hard to navigate);
 
-Sometimes websocket server response time is too long. I made messages queue, so the messages are sending one-by-one synchronously;
+Sometimes websocket server response time is too long. I've coded a queue to work with messages synchronous. Messages sent one-by-one after got response from server for previous message;
 
-On >2 levels it takes a lot of time to solve the puzzle. If client sync every rotation with server, it will take even more time! I store every rotation in Redux store. After submitting `verify` message, I combine all the rotations and send `rotate` to server and after it - `verify`;
+On >2 levels it takes a lot of time to solve the puzzle. If game client is going to sync every rotation with server, it will take a lot of time for user to solve the puzzle. My game client store every rotation in Redux. After user clicks verify, the game client is going to send all rotations;
 
-Also, on the bigger levels it requires a lot of rotations to be made. If player made a lot of rotations, I split `rotate` message by chunks (to fit size `< 1 MB`);
+Discussing about solution with rotation sync, got one more problem. On the 5, 6 levels it requires a lot of rotations to be made by user. I split `rotate` message to chunks (every chunk size is `< 1 MB`);
 
 # How to launch the solution:
 
