@@ -6,7 +6,7 @@ export const NavigationWrapper = styled.div`
     flex-direction: column;
     background: ${(p) => p.theme.palette.purple3};
     padding: 20px;
-    width: fit-content;
+    width: 480px;
     border-radius: 30px;
     margin: auto;
 
@@ -26,7 +26,7 @@ export const NavigationWrapper = styled.div`
 `;
 
 export const NavigationButtons = styled.div`
-    margin-top: 20px;
+    margin: 20px auto auto auto;
 
     button {
         position: relative;
@@ -37,7 +37,7 @@ export const NavigationButtons = styled.div`
         border: none;
         outline: none;
         border-radius: 15px;
-        margin-right: 15px;
+        margin-right: 25px;
         color: ${(p) => p.theme.palette.white};
         font-family: 'Rubik Medium';
         font-size: 30px;
@@ -60,8 +60,8 @@ export const NavigationButtons = styled.div`
             position: absolute;
             top: calc(50% - (4px / 2));
             content: '';
-            right: -20px;
-            width: 20px;
+            right: -25px;
+            width: 25px;
             height: 4px;
             background: ${(p) => p.theme.palette.purple2};
             margin: auto;
