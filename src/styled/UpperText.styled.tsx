@@ -6,7 +6,7 @@ export default styled.span<{ extraPadding?: number; notAnimated?: boolean }>`
     font-size: 18px;
     text-align: center;
     margin: auto;
-    color: ${(p) => p.theme.palette.white};
+    color: ${(p) => p.theme.palette.textWhite};
     animation: 2s ${blinking} infinite ease-in-out;
 
     ${(p) => p.notAnimated && `animation: none`};

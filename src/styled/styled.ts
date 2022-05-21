@@ -2,11 +2,11 @@ import baseStyled, { ThemedStyledInterface } from 'styled-components';
 
 export const defaultTheme = {
     palette: {
-        white: '#FFFFFF',
+        textWhite: '#EFE7FD',
 
-        purple1: '#BE6CFF',
-        purple2: '#9B2BF3',
-        purple3: '#7526B0',
+        purpleBright: '#B570EA',
+        purpleMain: '#9429E6',
+        purpleDark: '#7B22BF',
     },
 };
 

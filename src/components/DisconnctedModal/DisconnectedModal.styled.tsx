@@ -14,15 +14,15 @@ export const DisconnectedModalOverlay = styled.div`
 `;
 
 export const DisconnectedModalContent = styled.div`
-    background: ${(p) => p.theme.palette.purple3};
+    background: ${(p) => p.theme.palette.purpleDark};
     border-radius: 30px;
     padding: 30px;
 
     button {
         display: block;
         cursor: pointer;
-        background: ${(p) => p.theme.palette.purple1};
-        color: ${(p) => p.theme.palette.white};
+        background: ${(p) => p.theme.palette.purpleBright};
+        color: ${(p) => p.theme.palette.textWhite};
         font-family: 'Rubik Regular';
         font-size: 18px;
         border: none;

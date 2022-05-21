@@ -17,7 +17,7 @@ export const PipeChunkMap = styled.div<{ sizeLimit?: boolean }>`
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    background: ${(p) => p.theme.palette.purple3};
+    background: ${(p) => p.theme.palette.purpleDark};
     padding: 20px;
     width: fit-content;
     margin: 30px 0 0 30px;
@@ -52,7 +52,7 @@ export const PipeChunkMapRow = styled.div`
 
 export const PipeChunkMapCol = styled.div`
     display: flex;
-    background: ${(p) => p.theme.palette.purple2};
+    background: ${(p) => p.theme.palette.purpleMain};
     min-width: 60px;
     min-height: 60px;
     margin-right: 10px;
@@ -60,7 +60,7 @@ export const PipeChunkMapCol = styled.div`
     transition: 0.2s;
 
     &.current {
-        background: ${(p) => p.theme.palette.purple1};
+        background: ${(p) => p.theme.palette.purpleBright};
     }
 
     &:last-child {
@@ -71,7 +71,7 @@ export const PipeChunkMapCol = styled.div`
 export const PipeWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    background: ${(p) => p.theme.palette.purple3};
+    background: ${(p) => p.theme.palette.purpleDark};
     padding: 20px;
     border-radius: 30px;
     width: fit-content;
@@ -79,8 +79,8 @@ export const PipeWrapper = styled.div`
 
     button {
         cursor: pointer;
-        background: ${(p) => p.theme.palette.purple1};
-        color: ${(p) => p.theme.palette.white};
+        background: ${(p) => p.theme.palette.purpleBright};
+        color: ${(p) => p.theme.palette.textWhite};
         font-family: 'Rubik Regular';
         font-size: 18px;
         border: none;
@@ -109,7 +109,7 @@ export const Pipe = styled.div`
     height: 60px;
 
     &:hover {
-        background: ${(p) => p.theme.palette.purple1};
+        background: ${(p) => p.theme.palette.purpleBright};
     }
 
     &:after {

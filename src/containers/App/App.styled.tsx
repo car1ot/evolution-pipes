@@ -8,14 +8,14 @@ export const GlobalStyle = React.memo(createGlobalStyle<{
     html,
     body {
         font-family: 'Rubik Regular';
-        color: ${(p) => p.theme.palette.white};
+        color: ${(p) => p.theme.palette.textWhite};
     }
 
     #root {
         height: 100vh;
         width: 100%;
         box-sizing: border-box;
-        background: ${(p) => p.theme.palette.purple2};
+        background: ${(p) => p.theme.palette.purpleMain};
     }
 
     .ripple-btn {

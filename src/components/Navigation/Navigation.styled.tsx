@@ -4,7 +4,7 @@ import { styled } from '../../styled/styled';
 export const NavigationWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    background: ${(p) => p.theme.palette.purple3};
+    background: ${(p) => p.theme.palette.purpleDark};
     padding: 20px;
     width: 480px;
     border-radius: 30px;
@@ -21,7 +21,7 @@ export const NavigationWrapper = styled.div`
         text-align: center;
         margin: auto;
         animation: 2s ${blinking} infinite ease-in-out;
-        color: ${(p) => p.theme.palette.white};
+        color: ${(p) => p.theme.palette.textWhite};
     }
 `;
 
@@ -38,14 +38,14 @@ export const NavigationButtons = styled.div`
         outline: none;
         border-radius: 15px;
         margin-right: 25px;
-        color: ${(p) => p.theme.palette.white};
+        color: ${(p) => p.theme.palette.textWhite};
         font-family: 'Rubik Medium';
         font-size: 30px;
         transition: 0.2s;
-        background: ${(p) => p.theme.palette.purple2};
+        background: ${(p) => p.theme.palette.purpleMain};
 
         &.current {
-            background: ${(p) => p.theme.palette.purple1};
+            background: ${(p) => p.theme.palette.purpleBright};
         }
 
         &:last-child {
@@ -63,7 +63,7 @@ export const NavigationButtons = styled.div`
             right: -25px;
             width: 25px;
             height: 4px;
-            background: ${(p) => p.theme.palette.purple2};
+            background: ${(p) => p.theme.palette.purpleMain};
             margin: auto;
         }
 
