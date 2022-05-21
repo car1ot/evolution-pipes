@@ -68,7 +68,7 @@ export const PipeChunkMapCol = styled.div`
     }
 `;
 
-export const PipeWrapper = styled.div<{ pending: number }>`
+export const PipeWrapper = styled.div`
     display: flex;
     flex-direction: column;
     background: ${(p) => p.theme.palette.purple3};
@@ -76,20 +76,6 @@ export const PipeWrapper = styled.div<{ pending: number }>`
     border-radius: 30px;
     width: fit-content;
     margin: 30px 0;
-
-    ${(p) => {
-        if (!!p.pending) {
-            return `
-                & {
-                    cursor: wait;
-                }
-
-                & * {
-                    pointer-events: none;
-                }
-            `;
-        }
-    }}
 
     button {
         cursor: pointer;

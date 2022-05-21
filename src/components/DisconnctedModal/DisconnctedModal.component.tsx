@@ -1,21 +1,19 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setPipesDisconnected } from '../../store/pipes/pipes.slice';
+import { useSelector } from 'react-redux';
+import { GatewayHelper } from '../../helpers/gateway.helper';
+import { EGatewayStatus } from '../../store/gateway/gateway.slice';
 import { RootState } from '../../store/store';
 import UpperTextStyled from '../../styled/UpperText.styled';
-import { PipesGateway } from '../Pipes/Pipes.gateway';
 import { DisconnectedModalContent, DisconnectedModalOverlay } from './DisconnectedModal.styled';
 
 const DisconnectedModalComponent = () => {
-    const dispatch = useDispatch();
-    const disconnected = useSelector((state: RootState) => state.pipes.disconnected);
+    const gatewayStatus = useSelector((state: RootState) => state.gateway.status);
 
     const reconnect = React.useCallback(() => {
-        dispatch(setPipesDisconnected(false));
-        PipesGateway.reset();
-    }, [dispatch]);
+        GatewayHelper.reset();
+    }, []);
 
-    if (disconnected) {
+    if (gatewayStatus === EGatewayStatus.DISCONNECTED) {
         return (
             <DisconnectedModalOverlay>
                 <DisconnectedModalContent>

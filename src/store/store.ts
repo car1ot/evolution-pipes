@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import gatewaySlice from './gateway/gateway.slice';
 import pipesSlice from './pipes/pipes.slice';
 
 export const store = configureStore({
     reducer: {
+        gateway: gatewaySlice,
         pipes: pipesSlice,
     },
 });

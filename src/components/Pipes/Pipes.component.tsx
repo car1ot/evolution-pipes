@@ -1,8 +1,10 @@
 import classNames from 'classnames';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { GatewayHelper } from '../../helpers/gateway.helper';
+import { EGatewayStatus } from '../../store/gateway/gateway.slice';
 import {
-    setPipesConnected,
+    setPipesClearRotate,
     setPipesLevel,
     setPipesMap,
     setPipesMapChunk,
@@ -10,7 +12,6 @@ import {
 } from '../../store/pipes/pipes.slice';
 import { RootState } from '../../store/store';
 import UpperTextStyled from '../../styled/UpperText.styled';
-import { PipesGateway } from './Pipes.gateway';
 import {
     Pipe,
     PipeChunkMap,
@@ -20,23 +21,28 @@ import {
     PipesMainWrapper,
     PipeWrapper,
 } from './Pipes.styled';
-import { EVerifyResult } from './Pipes.type';
+
+export enum EVerifyResult {
+    NO_RESULT = 'No result',
+    INCORRECT = 'Incorrect.',
+    PENDING = 'Pending',
+    LIMIT = 'Only10verificationsallowedperattempt.',
+}
 
 const PipesComponent = () => {
     const dispatch = useDispatch();
+    const gateway = useSelector((state: RootState) => state.gateway);
     const pipes = useSelector((state: RootState) => state.pipes);
 
     const [verifyResult, setVerifyResult] = React.useState<EVerifyResult>(EVerifyResult.NO_RESULT);
-    const [rotatePending, setRotatePending] = React.useState<number>(0);
 
     /**
      * Connect to the server and init pipes state
      */
     const init = React.useCallback(async () => {
-        await PipesGateway.init();
-        const map = await PipesGateway.sendLevel(pipes.level);
+        await GatewayHelper.init();
+        const map = await GatewayHelper.sendLevel(pipes.level);
         dispatch(setPipesMap(map));
-        dispatch(setPipesConnected(true));
     }, [dispatch, pipes]);
 
     /**
@@ -44,7 +50,7 @@ const PipesComponent = () => {
      */
     const nextLevel = React.useCallback(async () => {
         const newLevel = pipes.level + 1;
-        const map = await PipesGateway.sendLevel(newLevel);
+        const map = await GatewayHelper.sendLevel(newLevel);
 
         dispatch(setPipesLevel(newLevel));
         dispatch(setPipesMap(map));
@@ -57,12 +63,15 @@ const PipesComponent = () => {
         setVerifyResult(EVerifyResult.PENDING);
 
         if (verifyResult === EVerifyResult.LIMIT) {
-            PipesGateway.reset();
+            GatewayHelper.reset();
             await init();
         }
 
+        await GatewayHelper.sendRotate(pipes.mapRotations);
+        dispatch(setPipesClearRotate());
+
         try {
-            const verify = await PipesGateway.sendVerify();
+            const verify = await GatewayHelper.sendVerify();
             if (verify === null) {
                 throw new Error('Verify is null');
             } else if (verify !== EVerifyResult.INCORRECT && verify !== EVerifyResult.LIMIT) {
@@ -78,22 +87,16 @@ const PipesComponent = () => {
         } catch (error) {
             setVerifyResult(EVerifyResult.NO_RESULT);
         }
-    }, [nextLevel, verifyResult, init]);
+    }, [dispatch, nextLevel, verifyResult, init, pipes]);
 
     /**
      * Rotate pipe
      */
     const editRotate = React.useCallback(
         async (rowIdx: number, colIdx: number, rowChunkOffset: number, colChunkOffset: number) => {
-            setRotatePending(1);
             try {
-                const rotate = await PipesGateway.sendRotate(rowIdx + rowChunkOffset, colIdx + colChunkOffset);
-                if (rotate === 'OK') {
-                    dispatch(setPipesRotate([rowIdx + rowChunkOffset, colIdx + colChunkOffset]));
-                }
-            } finally {
-                setRotatePending(0);
-            }
+                dispatch(setPipesRotate([rowIdx + rowChunkOffset, colIdx + colChunkOffset]));
+            } catch (error) {}
         },
         [dispatch],
     );
@@ -112,16 +115,16 @@ const PipesComponent = () => {
      * Connect to gateway
      */
     React.useEffect(() => {
-        if (!pipes.disconnected) {
+        if (gateway.status === EGatewayStatus.NOT_CONNECTED) {
             init();
         }
         // eslint-disable-next-line
-    }, [pipes.disconnected]);
+    }, [gateway.status]);
 
     if (!pipes.map) {
         return (
             <PipesMainWrapper>
-                <PipeWrapper pending={1}>
+                <PipeWrapper>
                     <UpperTextStyled extraPadding={20}>🗺️ Loading map...</UpperTextStyled>
                 </PipeWrapper>
             </PipesMainWrapper>
@@ -158,7 +161,7 @@ const PipesComponent = () => {
                     ))}
                 </PipeChunkMap>
             )}
-            <PipeWrapper pending={rotatePending}>
+            <PipeWrapper>
                 <UpperTextStyled extraPadding={20}>🧠 Solve pipes puzzle</UpperTextStyled>
 
                 {pipes.map.slice(chunkOffset.rows[0], chunkOffset.rows[1]).map((row, rowIdx) => (
