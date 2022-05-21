@@ -143,8 +143,6 @@ export class GatewayHelper {
             await this.sendCommand(command);
         }
 
-        const map = await this.sendCommand('map');
-
         return true;
     }
 }
