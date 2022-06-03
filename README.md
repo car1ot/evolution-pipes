@@ -2,6 +2,8 @@ This repository is for Evolution Gaming recruitment hometask homework with the g
 
 - If you really want to work in Evolution, be prepared for the technical interview. Probably you will not be asked about React, but given task could be to write some algorhitm in TypeScript. Answer fundumental questions about Node.JS. Peace!
 
+- Manage your time and dont spend a lot to apply this job.
+
 # Used
 
 ## Technologies
