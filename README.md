@@ -1,5 +1,5 @@
-This repository is for Evolution Gaming recruitment hometask homework with the goal to make React Typescript TypeScript Javascript Canvas pipes puzzle (Pipes Puzzle) game. Task is develop a game client for a "Pipes" puzzle. 
-
+This repository is for Evolution Gaming recruitment hometask homework with the goal to make React Typescript TypeScript Javascript Canvas pipes puzzle (Pipes Puzzle) game. Task is develop a game client for a "Pipes" puzzle. The puzzle is played by connecting to the backend located at wss://hometask.eg1236.com/game-pipes/ over WebSockets and sending commands to it.
+ 
 # Used
 
 ## Technologies
