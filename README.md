@@ -4,6 +4,9 @@ This repository is for Evolution Gaming recruitment hometask homework with the g
 
 - Manage your time and dont spend a lot to apply this job.
 
+# Auto solver
+Check repo: https://github.com/car1ot/evolution-pipes-solver
+
 # Used
 
 ## Technologies
